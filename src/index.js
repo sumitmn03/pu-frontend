@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./styles/mystyling.css";
-import "./styles/bootstrap.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 

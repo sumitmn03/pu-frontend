@@ -1,22 +1,30 @@
 import { combineReducers } from "redux";
-// import posts from "../../../../../oc/oc/frontend/src/reducers/posts";
-// import auth from "../../../../../oc/oc/frontend/src/reducers/auth";
+
+import current_user from "./current_user";
+
+import navigation from "./navigation";
+import posts from "../reducers/posts";
+import auth from "./auth";
 // import errors from "../../../../../oc/oc/frontend/src/reducers/errors";
 // import messages from "../../../../../oc/oc/frontend/src/reducers/messages";
-// import users from "../../../../../oc/oc/frontend/src/reducers/users";
-// import current_user from "../../../../../oc/oc/frontend/src/reducers/currentuser";
+import users from "./users";
+
 // import PostToBeUpdated from "../../../../../oc/oc/frontend/src/reducers/PostToBeUpdated";
 // import post_stats from "../../../../../oc/oc/frontend/src/reducers/stats";
-// import notifications from "../../../../../oc/oc/frontend/src/reducers/notification";
+import notifications from "./notifications";
+import search from "./search";
 
 export default combineReducers({
-  // current_user,
-  // posts,
-  // auth,
+  navigation,
+  current_user,
+  posts,
+  auth,
+  notifications,
+  users,
+  search
+
   // errors,
   // messages,
-  // users,
   // PostToBeUpdated,
   // post_stats,
-  // notifications
 });

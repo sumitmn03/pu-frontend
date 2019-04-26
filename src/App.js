@@ -1,68 +1,69 @@
 import React, { Component, Fragment } from "react";
 
-import MainRegister from "./components/Authentication/Register/MainRegister";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
-// import ReactDOM from "react-dom";
-
-// import {
-//   HashRouter as Router,
-//   Route,
-//   Switch,
-//   Redirect
-// } from "react-router-dom";
-
-// import { Provider as AlertProvider } from "react-alert";
-// import AlertTemplate from "react-alert-template-basic";
-
-// import Header from "./layout/Header";
-// import Alerts from "./layout/Alerts";
-// import PrivateRoute from "./security/PrivateRoute";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
 // import Form from "./posts/create/Form";
-// import Login from "./accounts/Login";
-// import Register from "./accounts/Register";
-// import Homepage from "./posts/home/Homepage";
-// import FindPeoples from "./peoples/find/FindPeoples";
+
+// import components
+
+import TopNavbar from "./components/layout/TopNavbar";
+
+// import unauthorised components
+
+import Login from "./components/authentication/login/Login";
+import MainRegister from "./components/authentication/register/MainRegister";
+
+// import authorised components
+import Homepage from "./components/home/HomePage";
+import CreateForm from "./components/home/createPost/CreateForm";
+import FindPeoples from "./components/home/peoples/find/FindPeoples";
 // import Profile from "./peoples/profile/Profile";
 // import UpdateForm from "./update/update_poll/UpdateForm";
 // import Stats from "./stats/stats";
-// import NotificationList from "./notification/NotificationList";
-// import MyProfile from "./myprofile/MyProfile";
+import NotificationList from "./components/home/notification/NotificationList";
+import MyProfile from "./components/home/myprofile/MyProfile";
+import Search from "./components/home/search/Search";
 // import EditMyProfile from "./myprofile/EditMyProfile";
 // import UpdatePassword from "./updatePasswordFolder/UpdatePassword";
 // import UpdateEmail from "./updateEmailFolder/UpdateEmail";
-// import { Setting } from "./settingFolder/Setting";
+import { Setting } from "./components/home/setting/Setting";
 
 import { Provider } from "react-redux";
 import store from "./store";
-// import { loadUser } from "../actions/auth";
-
-// Alert Options
-// const alertOptions = {
-//   timeout: 3000,
-//   position: "top center"
-// };
+import { loadUser } from "./actions/auth";
+import { getCurrentUser } from "./actions/currentuser";
+import { getPosts } from "./actions/posts";
+import { get_notifications } from "./actions/notifications";
 
 class App extends Component {
   componentDidMount() {
-    // store.dispatch(loadUser());
+    store.dispatch(loadUser());
+    store.dispatch(getCurrentUser());
+    store.dispatch(getPosts());
+    store.dispatch(get_notifications());
   }
   render() {
     return (
       <Provider store={store}>
-        <div>
-          <MainRegister />
-        </div>
-        {/* <AlertProvider template={AlertTemplate} {...alertOptions}>
-          <Router>
-            <Fragment>
-              <Header />
-              <Alerts />
-              <br /> <br />
-              <div className="container">
-                <Switch> */}
-        {/* only for authenticated users */}
-        {/* <PrivateRoute exact path="/" component={Homepage} />
-                  <PrivateRoute exact path="/post" component={Form} />
+        <Router>
+          <Fragment>
+            <TopNavbar />
+            <br /> <br />
+            <div className="app ms-no-gutter">
+              <Switch>
+                <PrivateRoute exact path="/" component={Homepage} />
+                <PrivateRoute exact path="/post" component={CreateForm} />
+                <PrivateRoute
+                  exact
+                  path="/notifications"
+                  component={NotificationList}
+                />
+                <PrivateRoute exact path="/setting" component={Setting} />
+                <PrivateRoute exact path="/profile" component={MyProfile} />
+                <PrivateRoute exact path="/peoples" component={FindPeoples} />
+                <PrivateRoute exact path="/search" component={Search} />
+                {/* 
                   <PrivateRoute
                     exact
                     path="/findpeoples"
@@ -102,19 +103,16 @@ class App extends Component {
                     component={UpdateEmail}
                   /> */}
 
-        {/* for non-authenticated user */}
-        {/* <Route exact path="/register" component={Register} />
-                  <Route exact path="/login" component={Login} />
-                </Switch>
-              </div>
-            </Fragment>
-          </Router>
-        </AlertProvider>*/}
+                {/* for non-authenticated user */}
+                <Route exact path="/register" component={MainRegister} />
+                <Route exact path="/login" component={Login} />
+              </Switch>
+            </div>
+          </Fragment>
+        </Router>
       </Provider>
     );
   }
 }
 
 export default App;
-
-// ReactDOM.render(<App />, document.getElementById("app"));

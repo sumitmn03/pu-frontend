@@ -20,11 +20,11 @@ export class Poll extends Component {
           created_at={post.created_at}
         />
 
-        <PollContent content={post.posts} />
+        <PollContent post_id={post.id} content={post.posts} />
 
         <PollMainOptions {...this.props} />
         <hr className="ms-hrline-afteroptions" />
-        <PollFooter />
+        <PollFooter post_id={post.id} />
       </div>
     );
   }

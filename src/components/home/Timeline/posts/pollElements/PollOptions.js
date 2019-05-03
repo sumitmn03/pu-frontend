@@ -3,12 +3,7 @@ import React, { Component } from "react";
 import PollOption from "./PollOption";
 
 export class PollOptions extends Component {
-  // componentDidMount() {
-  //   console.log(this.props);
-  // }
-
   componentDidMount() {
-    // console.log(this.props);
     let is_any_option_opted = false,
       last_option_opted = {},
       last_option_opted_index = null,

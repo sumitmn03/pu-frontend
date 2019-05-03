@@ -13,6 +13,8 @@ import users from "./users";
 // import post_stats from "../../../../../oc/oc/frontend/src/reducers/stats";
 import notifications from "./notifications";
 import search from "./search";
+import post from "./post";
+import comment from "./comment";
 
 export default combineReducers({
   navigation,
@@ -21,7 +23,9 @@ export default combineReducers({
   auth,
   notifications,
   users,
-  search
+  search,
+  post,
+  comment
 
   // errors,
   // messages,

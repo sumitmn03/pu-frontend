@@ -3,6 +3,7 @@ import React, { Component, Fragment } from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
+
 // import Form from "./posts/create/Form";
 
 // import components
@@ -24,6 +25,7 @@ import FindPeoples from "./components/home/peoples/find/FindPeoples";
 import NotificationList from "./components/home/notification/NotificationList";
 import MyProfile from "./components/home/myprofile/MyProfile";
 import Search from "./components/home/search/Search";
+import PollDetailView from "./components/home/pollDetailView/PollDetailView";
 // import EditMyProfile from "./myprofile/EditMyProfile";
 // import UpdatePassword from "./updatePasswordFolder/UpdatePassword";
 // import UpdateEmail from "./updateEmailFolder/UpdateEmail";
@@ -63,6 +65,12 @@ class App extends Component {
                 <PrivateRoute exact path="/profile" component={MyProfile} />
                 <PrivateRoute exact path="/peoples" component={FindPeoples} />
                 <PrivateRoute exact path="/search" component={Search} />
+                const pd ={" "}
+                <PrivateRoute
+                  exact
+                  path="/polldetail/:post_id"
+                  component={PollDetailView}
+                />
                 {/* 
                   <PrivateRoute
                     exact
@@ -102,7 +110,6 @@ class App extends Component {
                     path="/updateemail"
                     component={UpdateEmail}
                   /> */}
-
                 {/* for non-authenticated user */}
                 <Route exact path="/register" component={MainRegister} />
                 <Route exact path="/login" component={Login} />

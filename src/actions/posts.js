@@ -12,10 +12,14 @@ import {
 
 // GET POSTS
 
-export const getPosts = () => (dispatch, getState) => {
+export const getPosts = page => (dispatch, getState) => {
   axios
-    .get("http://localhost:8000/api/gettimeline", tokenConfig(getState))
+    .get(
+      `http://localhost:8000/api/gettimeline/${page}/`,
+      tokenConfig(getState)
+    )
     .then(res => {
+      // console.log(res);
       dispatch({
         type: GET_POSTS,
         payload: res.data

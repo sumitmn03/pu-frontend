@@ -24,7 +24,7 @@ export class ProfileItem extends Component {
       // follow or unfollow button
       <button
         onClick={() => {
-          follow_or_following_value === "follow"
+          follow_or_following_value === "Follow"
             ? this.props.follow(host_user.id)
             : this.props.unfollow(following_id, following_index);
         }}

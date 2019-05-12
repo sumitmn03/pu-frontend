@@ -1,9 +1,4 @@
-import axios from "axios";
-import { tokenConfig } from "./auth";
-// import { socket } from "../store";
-
-import { ADD_COMMENT, GET_COMMENTS } from "./types";
-
+import { send } from "@giantmachines/redux-websocket";
 // ADD COMMENT
 
 export const addComment = (
@@ -11,61 +6,16 @@ export const addComment = (
   posts,
   author,
   parent_comment,
-  comment_content
-) => (dispatch, getState) => {
-  const comment = {
+  comment_content,
+  parent_comment_index
+) => dispatch => {
+  let final_data = JSON.stringify({
     post_type,
     posts,
     author,
     parent_comment,
-    comment: comment_content
-  };
-  axios
-    .post(
-      "http://localhost:8000/api/comments/",
-      JSON.stringify(comment),
-      tokenConfig(getState)
-    )
-    .then(
-      dispatch({
-        type: ADD_COMMENT
-      })
-    )
-    .catch(err => {
-      console.log(err);
-      //   dispatch(returnErrors(err.response.data, err.response.status));
-    });
-};
-
-// websocket actions
-
-export const getComments = () => (dispatch, getState) => {
-  dispatch({
-    type: GET_COMMENTS,
-    payload: "Receive this",
-    socket: {
-      send: true
-    }
+    comment_content,
+    parent_comment_index
   });
+  dispatch(send(final_data));
 };
-
-// export const addComment = (
-//   post_type,
-//   posts,
-//   author,
-//   parent_comment,
-//   comment_content
-// ) => (dispatch, getState) => {
-//   const comment = {
-//     post_type,
-//     posts,
-//     author,
-//     parent_comment,
-//     comment: comment_content
-//   };
-//   socket.send(posts);
-//   dispatch({
-//     type: TEMP,
-//     payload: "abc bla bla..."
-//   });
-// };

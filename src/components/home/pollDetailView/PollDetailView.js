@@ -3,13 +3,32 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { getSinglePost } from "../../../actions/post";
+// websocket actions
+import { connect as websocket_connect } from "@giantmachines/redux-websocket";
+import { send, disconnect } from "@giantmachines/redux-websocket";
+
+import {
+  getSinglePost,
+  getComments,
+  setCommentsToNormal,
+  incrementOptionOfDetailedPost,
+  decrementOptionOfDetailedPost,
+  decrement_then_incrementOfDetailedPost
+} from "../../../actions/post";
+
+import { notify } from "../../../actions/notifications";
+
+// import {
+//   incrementOptionOfDetailedPost,
+//   decrementOptionOfDetailedPost,
+//   decrement_then_incrementOfDetailedPost
+// } from "../../../actions/posts";
+
 import { addComment } from "../../../actions/Comment";
-import { getComments } from "../../../actions/Comment";
 
 import PollHeader from "../Timeline/posts/pollElements/PollHeader";
 import PollContent from "../Timeline/posts/pollElements/PollContent";
-import PollMainOptions from "../Timeline/posts/pollElements/PollMainOptions";
+import DetailViewPollMainOptions from "./pollDetailViewElements/DetailViewPollMainOptions";
 import PollFooter from "../Timeline/posts/pollElements/PollFooter";
 import PollComments from "../Timeline/posts/pollElements/PollComments";
 
@@ -19,10 +38,19 @@ export class PollDetailView extends Component {
   };
   static propTypes = {
     getSinglePost: PropTypes.func.isRequired,
+    getComments: PropTypes.func.isRequired,
+    setCommentsToNormal: PropTypes.func.isRequired,
     addComment: PropTypes.func.isRequired,
     current_user: PropTypes.object.isRequired,
-    comments: PropTypes.array.isRequired,
-    getComments: PropTypes.func.isRequired
+    websocket_connect: PropTypes.func.isRequired,
+    send: PropTypes.func.isRequired,
+    disconnect: PropTypes.func.isRequired,
+    comment_page: PropTypes.number.isRequired,
+    has_more_comments: PropTypes.bool.isRequired,
+    incrementOptionOfDetailedPost: PropTypes.func.isRequired,
+    decrementOptionOfDetailedPost: PropTypes.func.isRequired,
+    decrement_then_incrementOfDetailedPost: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -30,13 +58,19 @@ export class PollDetailView extends Component {
     let target_post_id = this.props.location.pathname.match(get_numb)[0];
     this.setState({ target_post_id });
     this.props.getSinglePost(target_post_id);
+    this.props.websocket_connect(
+      `ws://localhost:8000/ws/comments/${target_post_id}/`
+    );
+    this.props.setCommentsToNormal();
   }
 
-  componentDidUpdate(prevProps) {
-    console.log(this.props.comments);
-
-    // console.log(this.props.post);
+  componentWillUnmount() {
+    this.props.disconnect();
   }
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   render() {
     const { post } = this.props;
@@ -52,7 +86,7 @@ export class PollDetailView extends Component {
 
               <PollContent content={post.posts} />
 
-              <PollMainOptions {...this.props} />
+              <DetailViewPollMainOptions {...this.props} />
               <hr className="ms-hrline-afteroptions" />
               <PollFooter />
             </div>
@@ -69,14 +103,24 @@ export class PollDetailView extends Component {
 const mapStateToProps = state => ({
   post: state.post.post,
   current_user: state.current_user.current_user,
-  comments: state.comment.comments
+  comments: state.post.comments,
+  comment_page: state.post.comment_page,
+  has_more_comments: state.post.has_more_comments
 });
 
 export default connect(
   mapStateToProps,
   {
     getSinglePost,
+    getComments,
     addComment,
-    getComments
+    websocket_connect,
+    send,
+    disconnect,
+    setCommentsToNormal,
+    incrementOptionOfDetailedPost,
+    decrementOptionOfDetailedPost,
+    decrement_then_incrementOfDetailedPost,
+    notify
   }
 )(PollDetailView);

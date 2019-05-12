@@ -764,6 +764,16 @@ body::-webkit-scrollbar {
   border-radius: 4px;
 }
 
+/* poll detail view loading page */
+.ms-timeline-loading-page {
+  font-size: 20px;
+  background-color: white;
+  padding: 10px 0;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  border-radius: 4px;
+}
+
 .ms-poll-comments-container {
   /* background-color: white; */
   width: 100%;
@@ -1056,6 +1066,10 @@ body::-webkit-scrollbar {
 
   .ms-detailedPoll-loading-page {
     padding: 20% 0;
+  }
+
+  .ms-timeline-loading-page {
+    padding: 20px 0;
   }
 
   .ms-poll-comments-container {

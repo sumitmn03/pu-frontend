@@ -14,7 +14,8 @@ import {
 
 // import components
 import ProfileItem from "../peoples/find/ProfileItem";
-import Poll from "../Timeline/posts/Poll";
+import SearchedPoll from "./searchedItem/SearchedPoll";
+// import Poll from "../Timeline/posts/Poll";
 
 export class Search extends Component {
   static propTypes = {
@@ -41,7 +42,12 @@ export class Search extends Component {
               <ProfileItem host_user={elem} {...this.props} />
             </div>
           ) : (
-            <Poll key={index} post={elem} />
+            <SearchedPoll
+              key={index}
+              post={elem}
+              post_index={index}
+              {...this.props}
+            />
           );
         })}
       </div>
@@ -57,5 +63,10 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getSingleUser, following, follow, unfollow }
+  {
+    getSingleUser,
+    following,
+    follow,
+    unfollow
+  }
 )(Search);

@@ -14,13 +14,14 @@ export class PollCommentReplies extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { reply } = this.state;
-    const { post, comment, current_user } = this.props;
+    const { post, comment, current_user, comment_index } = this.props;
     this.props.addComment(
       post.post_type,
       post.id,
       current_user.id,
       comment.id,
-      reply
+      reply,
+      comment_index
     );
     this.setState({ reply: "" });
   };

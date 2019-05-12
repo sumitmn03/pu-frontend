@@ -14,7 +14,7 @@ import users from "./users";
 import notifications from "./notifications";
 import search from "./search";
 import post from "./post";
-import comment from "./comment";
+import websocket from "./websocket";
 
 export default combineReducers({
   navigation,
@@ -25,7 +25,7 @@ export default combineReducers({
   users,
   search,
   post,
-  comment
+  websocket
 
   // errors,
   // messages,

@@ -8,7 +8,9 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  posts: []
+  posts: [],
+  page: 0,
+  has_more_posts: true
 };
 
 export default function posts(state = initialState, action) {
@@ -16,7 +18,9 @@ export default function posts(state = initialState, action) {
     case GET_POSTS:
       return {
         ...state,
-        posts: [...action.payload]
+        posts: [...state.posts, ...action.payload.polls],
+        page: action.payload.page,
+        has_more_posts: action.payload.has_more
       };
     case DECREMENT_OPTION_COUNT:
       let {
@@ -107,99 +111,6 @@ export default function posts(state = initialState, action) {
           ...state.posts.slice(increment_post_index + 1)
         ]
       };
-
-    // case ADD_COMMENT:
-    //   let { result_for_addcomment, post_index } = action.payload,
-    //     selected_post_for_addcomment = state.posts[post_index];
-    //   return {
-    //     ...state,
-    //     // updating the posts
-    //     posts: [
-    //       // keeping post datas before the selected post as it is
-    //       ...state.posts.slice(0, post_index),
-
-    //       // updating the count of the option of the selected post
-    //       // **********************************************************
-    //       // **********************************************************
-
-    //       {
-    //         ...selected_post_for_addcomment,
-    //         comments: [
-    //           // keeping everything unchanged
-    //           ...selected_post_for_addcomment.comments,
-    //           result_for_addcomment
-    //         ]
-    //       },
-
-    //       // **********************************************************
-    //       // **********************************************************
-    //       // updating finished... so keeping all other post datas ater the selected post as it is
-
-    //       ...state.posts.slice(post_index + 1)
-    //     ]
-    //   };
-
-    // case ADD_REPLY:
-    //   let {
-    //       result_for_reply,
-    //       post_index_for_reply,
-    //       comment_index_for_reply
-    //     } = action.payload,
-    //     selected_post_for_addreply = state.posts[post_index_for_reply],
-    //     selected_comment_for_addreply =
-    //       state.posts[post_index_for_reply].comments[comment_index_for_reply];
-    //   return {
-    //     ...state,
-    //     // updating the posts
-    //     posts: [
-    //       // keeping post datas before the selected post as it is
-    //       ...state.posts.slice(0, post_index_for_reply),
-
-    //       // updating the count of the option of the selected post
-    //       // **********************************************************
-    //       // **********************************************************
-
-    //       {
-    //         ...selected_post_for_addreply,
-    //         comments: [
-    //           // keeping everything unchanged
-    //           ...selected_post_for_addreply.comments.slice(
-    //             0,
-    //             comment_index_for_reply
-    //           ),
-    //           // edit the selected comment
-    //           {
-    //             ...selected_comment_for_addreply,
-    //             // add the new reply
-    //             replies: [
-    //               ...selected_comment_for_addreply.replies,
-    //               result_for_reply
-    //             ]
-    //           },
-    //           // keeping every other things unchanged
-    //           ...selected_post_for_addreply.comments.slice(
-    //             comment_index_for_reply + 1
-    //           )
-    //         ]
-    //       },
-
-    //       // **********************************************************
-    //       // **********************************************************
-    //       // updating finished... so keeping all other post datas ater the selected post as it is
-
-    //       ...state.posts.slice(post_index_for_reply + 1)
-    //     ]
-    //   };
-
-    // case POSTREPORTED:
-    //   const { post_index_for_handling_report } = action.payload;
-    //   return {
-    //     ...state,
-    //     posts: [
-    //       ...state.posts.slice(0, post_index_for_handling_report),
-    //       ...state.posts.slice(post_index_for_handling_report + 1)
-    //     ]
-    //   };
 
     default:
       return state;

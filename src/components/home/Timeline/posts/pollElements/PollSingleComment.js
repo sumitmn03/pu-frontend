@@ -8,9 +8,14 @@ export class PollSingleComment extends Component {
     id: "id"
   };
   componentDidMount() {
-    let id = this.props.comment.id + "comment_id";
-    this.setState({ id });
+    this.setState({ id: this.props.comment.id + "comment_id" });
   }
+
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps !== this.props) {
+  //     this.setState({ id: this.props.comment.id + "comment_id" });
+  //   }
+  // }
 
   handle_replies_button = () => {
     document.getElementById(this.state.id).classList.toggle("show");

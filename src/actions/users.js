@@ -31,7 +31,10 @@ export const getAllUsers = () => (dispatch, getState) => {
 
 export const getSingleUser = user_id => (dispatch, getState) => {
   axios
-    .get(`http://localhost:8000/api/getusers/${user_id}`, tokenConfig(getState))
+    .get(
+      `http://localhost:8000/api/getallusers/${user_id}`,
+      tokenConfig(getState)
+    )
     .then(res => {
       dispatch({
         type: GET_SINGLE_USER,
@@ -90,7 +93,7 @@ export const unfollow = (following_id, following_index) => (
 ) => {
   axios
     .delete(
-      `http://localhost:8000/api/follow/${following_id}`,
+      `http://localhost:8000/api/follow/${following_id}/`,
       tokenConfig(getState)
     )
     .then(

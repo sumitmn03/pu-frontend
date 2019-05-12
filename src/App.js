@@ -35,14 +35,12 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
 import { getCurrentUser } from "./actions/currentuser";
-import { getPosts } from "./actions/posts";
 import { get_notifications } from "./actions/notifications";
 
 class App extends Component {
   componentDidMount() {
     store.dispatch(loadUser());
     store.dispatch(getCurrentUser());
-    store.dispatch(getPosts());
     store.dispatch(get_notifications());
   }
   render() {

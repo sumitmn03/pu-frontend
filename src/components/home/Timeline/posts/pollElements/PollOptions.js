@@ -160,7 +160,7 @@ export class PollOptions extends Component {
   };
 
   render() {
-    let { post, post_index, option_opted_by_current_user } = this.props;
+    let { post, post_index } = this.props;
     return (
       <div
         className={
@@ -180,7 +180,7 @@ export class PollOptions extends Component {
               handle_option_opted={this.handle_option_opted}
               post_id={post.id}
               option_count={option.count}
-              option_opted_by_current_user={option_opted_by_current_user}
+              option_opted_by_current_user={post.option_opted_by_current_user}
             />
           );
         })}

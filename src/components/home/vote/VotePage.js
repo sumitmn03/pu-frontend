@@ -6,20 +6,20 @@ import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroller";
 
 // import actions
-import { getCurrentUser } from "../../actions/currentuser";
+import { getCurrentUser } from "../../../actions/currentuser";
 import {
   getPosts,
   incrementOption,
   decrementOption,
   decrement_then_increment,
-  setTimelineToNormal
-} from "../../actions/posts";
+  setVotePageToNormal
+} from "../../../actions/votepage";
 
-import { notify } from "../../actions/notifications";
+import { notify } from "../../../actions/notifications";
 
-import Poll from "./Timeline/posts/Poll";
+import Poll from "../Timeline/posts/Poll";
 
-export class HomePage extends Component {
+export class VotePage extends Component {
   static propTypes = {
     // current_user: PropTypes.object.isRequired,
     getPosts: PropTypes.func.isRequired,
@@ -29,13 +29,13 @@ export class HomePage extends Component {
     decrementOption: PropTypes.func.isRequired,
     decrement_then_increment: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    setTimelineToNormal: PropTypes.func.isRequired,
+    setVotePageToNormal: PropTypes.func.isRequired,
     next: PropTypes.string
   };
 
   componentDidMount() {
     this.props.getCurrentUser();
-    this.props.setTimelineToNormal();
+    this.props.setVotePageToNormal();
   }
 
   loadMorePolls = () => {
@@ -79,8 +79,8 @@ export class HomePage extends Component {
 
 const mapStateToProps = state => ({
   // current_user: state.current_user.current_user,
-  posts: state.posts.posts,
-  next: state.posts.next
+  posts: state.votepage.posts,
+  next: state.votepage.next
 });
 
 export default connect(
@@ -92,6 +92,6 @@ export default connect(
     decrementOption,
     decrement_then_increment,
     notify,
-    setTimelineToNormal
+    setVotePageToNormal
   }
-)(HomePage);
+)(VotePage);

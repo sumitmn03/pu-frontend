@@ -44,6 +44,7 @@ export class SearchedPollOptions extends Component {
               option_index={option_index}
               post_id={option_index}
               handle_option_opted={this.handle_option_opted}
+              option_opted_by_current_user={post.option_opted_by_current_user}
             />
           );
         })}

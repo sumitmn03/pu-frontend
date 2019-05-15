@@ -112,7 +112,7 @@ export class TopNavbar extends Component {
             </Link>
           </li>
           <li className="ms-top-navbar-item">
-            <Link to="/myprofile" className="ms-nav-link">
+            <Link to="/vote" className="ms-nav-link">
               <span className="ms-vote-button">Vote</span>
             </Link>
           </li>

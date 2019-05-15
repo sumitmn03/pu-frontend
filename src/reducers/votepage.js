@@ -1,27 +1,24 @@
 import {
-  GET_POSTS,
-  INCREMENT_OPTION_COUNT,
-  DECREMENT_OPTION_COUNT,
-  SET_TIMELINE_TO_NORMAL
-  // ADD_COMMENT,
-  // ADD_REPLY,
-  // POSTREPORTED
+  VOTE_GET_POSTS,
+  VOTE_INCREMENT_OPTION_COUNT,
+  VOTE_DECREMENT_OPTION_COUNT,
+  SET_VOTE_PAGE_TO_NORMAL
 } from "../actions/types";
 
 const initialState = {
   posts: [],
-  next: "http://localhost:8000/api/gettimeline/"
+  next: "http://localhost:8000/api/pollstovote/"
 };
 
-export default function posts(state = initialState, action) {
+export default function votepost(state = initialState, action) {
   switch (action.type) {
-    case GET_POSTS:
+    case VOTE_GET_POSTS:
       return {
         ...state,
         posts: [...state.posts, ...action.payload.results],
         next: action.payload.next
       };
-    case DECREMENT_OPTION_COUNT:
+    case VOTE_DECREMENT_OPTION_COUNT:
       let {
           decrement_option_result,
           decrement_post_index,
@@ -65,7 +62,7 @@ export default function posts(state = initialState, action) {
           ...state.posts.slice(decrement_post_index + 1)
         ]
       };
-    case INCREMENT_OPTION_COUNT:
+    case VOTE_INCREMENT_OPTION_COUNT:
       let {
           optedby_result,
           increment_option_result,
@@ -111,11 +108,11 @@ export default function posts(state = initialState, action) {
         ]
       };
 
-    case SET_TIMELINE_TO_NORMAL:
+    case SET_VOTE_PAGE_TO_NORMAL:
       return {
         ...state,
         posts: [],
-        next: "http://localhost:8000/api/gettimeline/"
+        next: "http://localhost:8000/api/pollstovote/"
       };
 
     default:

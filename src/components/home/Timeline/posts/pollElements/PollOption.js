@@ -14,11 +14,30 @@ export class PollOption extends Component {
       option_index
     );
   };
+
+  checkOptionOpted = () => {
+    const { option_opted_by_current_user, option } = this.props;
+
+    if (option_opted_by_current_user.length > 0) {
+      if (option_opted_by_current_user[0].posts_option === option.id) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   render() {
     const { option, count } = this.props.option;
 
     return (
-      <span className="option-display" onClick={this.handle_option}>
+      <span
+        className={
+          this.checkOptionOpted()
+            ? "option-display highlight_option"
+            : "option-display"
+        }
+        onClick={this.handle_option}
+      >
         {option} {count}
       </span>
     );

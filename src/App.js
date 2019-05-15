@@ -29,7 +29,8 @@ import PollDetailView from "./components/home/pollDetailView/PollDetailView";
 // import EditMyProfile from "./myprofile/EditMyProfile";
 // import UpdatePassword from "./updatePasswordFolder/UpdatePassword";
 // import UpdateEmail from "./updateEmailFolder/UpdateEmail";
-import { Setting } from "./components/home/setting/Setting";
+import Setting from "./components/home/setting/Setting";
+import VotePage from "./components/home/vote/VotePage";
 
 import { Provider } from "react-redux";
 import store from "./store";
@@ -69,6 +70,7 @@ class App extends Component {
                   path="/polldetail/:post_id"
                   component={PollDetailView}
                 />
+                <PrivateRoute exact path="/vote" component={VotePage} />
                 {/* 
                   <PrivateRoute
                     exact

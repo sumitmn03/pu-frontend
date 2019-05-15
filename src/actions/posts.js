@@ -5,7 +5,8 @@ import { tokenConfig } from "./auth";
 import {
   GET_POSTS,
   INCREMENT_OPTION_COUNT,
-  DECREMENT_OPTION_COUNT
+  DECREMENT_OPTION_COUNT,
+  SET_TIMELINE_TO_NORMAL
   // ADD_COMMENT,
   // ADD_REPLY
 } from "./types";
@@ -191,6 +192,14 @@ export const addOptions = (posts, options) => (dispatch, getState) => {
         console.log(err);
       });
     return 0;
+  });
+};
+
+// re retrieve timeline posts
+
+export const setTimelineToNormal = () => dispatch => {
+  dispatch({
+    type: SET_TIMELINE_TO_NORMAL
   });
 };
 

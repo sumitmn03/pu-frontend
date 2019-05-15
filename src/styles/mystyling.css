@@ -91,6 +91,12 @@ body::-webkit-scrollbar {
   border-radius: 4px !important;
 }
 
+.highlight_option {
+  color: white !important;
+  background-color: rgb(14, 92, 138) !important;
+  border-color: black !important;
+}
+
 .post-option-input-container {
   height: 40px;
   overflow-x: scroll;

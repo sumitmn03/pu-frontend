@@ -15,6 +15,7 @@ import notifications from "./notifications";
 import search from "./search";
 import post from "./post";
 import websocket from "./websocket";
+import votepage from "./votepage";
 
 export default combineReducers({
   navigation,
@@ -25,7 +26,8 @@ export default combineReducers({
   users,
   search,
   post,
-  websocket
+  websocket,
+  votepage
 
   // errors,
   // messages,

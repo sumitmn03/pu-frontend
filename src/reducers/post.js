@@ -9,17 +9,18 @@ import {
 const initialState = {
   post: {},
   comments: [],
-  comment_page: 0,
-  has_more_comments: true
+  comment_next_page: ""
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_SINGLE_POST:
-      console.log(action.payload);
       return {
         ...state,
-        post: action.payload
+        post: action.payload,
+        comment_next_page: `http://localhost:8000/api/getcomments/${
+          action.payload.id
+        }/`
       };
     case INCREMENT_OPTION_COUNT_OF_DETAILED_POST:
       let {
@@ -64,17 +65,15 @@ export default function(state = initialState, action) {
     case GET_COMMENTS:
       return {
         ...state,
-        comments: [...state.comments, ...action.payload.comments],
-        comment_page: action.payload.page,
-        has_more_comments: action.payload.has_more
+        comments: [...state.comments, ...action.payload.results],
+        comment_next_page: action.payload.next
       };
     case SET_COMMENTS_TO_NORMAL:
       return {
         ...state,
         post: {},
         comments: [],
-        comment_page: 0,
-        has_more_comments: true
+        comment_next_page: ""
       };
     // triggered when the websocket receives a new message from the server
     case "REDUX_WEBSOCKET::MESSAGE":

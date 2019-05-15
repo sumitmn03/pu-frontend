@@ -28,8 +28,7 @@ export class HomePage extends Component {
     decrementOption: PropTypes.func.isRequired,
     decrement_then_increment: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    page: PropTypes.number.isRequired,
-    has_more_posts: PropTypes.bool.isRequired
+    next: PropTypes.string
   };
 
   componentDidMount() {
@@ -37,7 +36,10 @@ export class HomePage extends Component {
   }
 
   loadMorePolls = () => {
-    this.props.getPosts(this.props.page);
+    const { next } = this.props;
+    if (next !== null) {
+      this.props.getPosts(next);
+    }
   };
 
   render() {
@@ -48,7 +50,7 @@ export class HomePage extends Component {
         <InfiniteScroll
           pageStart={0}
           loadMore={this.loadMorePolls}
-          hasMore={this.props.has_more_posts}
+          hasMore={this.props.next !== null ? true : false}
           loader={
             <div key={0} className="ms-timeline-loading-page">
               Loading ...
@@ -75,8 +77,7 @@ export class HomePage extends Component {
 const mapStateToProps = state => ({
   // current_user: state.current_user.current_user,
   posts: state.posts.posts,
-  page: state.posts.page,
-  has_more_posts: state.posts.has_more_posts
+  next: state.posts.next
 });
 
 export default connect(

@@ -29,12 +29,9 @@ export const getSinglePost = post_id => (dispatch, getState) => {
     });
 };
 
-export const getComments = (post_id, page) => (dispatch, getState) => {
+export const getComments = next => (dispatch, getState) => {
   axios
-    .get(
-      `http://localhost:8000/api/getcomments/${post_id}/${page}/`,
-      tokenConfig(getState)
-    )
+    .get(next, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: GET_COMMENTS,
@@ -42,7 +39,7 @@ export const getComments = (post_id, page) => (dispatch, getState) => {
       });
     })
     .catch(err => {
-      console.log("something wrong !!");
+      console.log(err);
     });
 };
 

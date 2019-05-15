@@ -16,8 +16,10 @@ export class PollComments extends Component {
   // }
 
   loadMoreComments = () => {
-    const { post, comment_page } = this.props;
-    this.props.getComments(post.id, comment_page);
+    const { comment_next_page } = this.props;
+    if (comment_next_page !== null) {
+      this.props.getComments(comment_next_page);
+    }
   };
 
   onChange = e => {
@@ -62,7 +64,7 @@ export class PollComments extends Component {
           <InfiniteScroll
             pageStart={0}
             loadMore={this.loadMoreComments}
-            hasMore={this.props.has_more_comments}
+            hasMore={this.props.comment_next_page !== null ? true : false}
             loader={
               <div key={0} className="ms-timeline-loading-page">
                 Loading ...

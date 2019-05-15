@@ -45,12 +45,11 @@ export class PollDetailView extends Component {
     websocket_connect: PropTypes.func.isRequired,
     send: PropTypes.func.isRequired,
     disconnect: PropTypes.func.isRequired,
-    comment_page: PropTypes.number.isRequired,
-    has_more_comments: PropTypes.bool.isRequired,
     incrementOptionOfDetailedPost: PropTypes.func.isRequired,
     decrementOptionOfDetailedPost: PropTypes.func.isRequired,
     decrement_then_incrementOfDetailedPost: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired
+    notify: PropTypes.func.isRequired,
+    comment_next_page: PropTypes.string
   };
 
   componentDidMount() {
@@ -104,8 +103,7 @@ const mapStateToProps = state => ({
   post: state.post.post,
   current_user: state.current_user.current_user,
   comments: state.post.comments,
-  comment_page: state.post.comment_page,
-  has_more_comments: state.post.has_more_comments
+  comment_next_page: state.post.comment_next_page
 });
 
 export default connect(

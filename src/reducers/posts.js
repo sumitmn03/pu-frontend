@@ -9,8 +9,7 @@ import {
 
 const initialState = {
   posts: [],
-  page: 0,
-  has_more_posts: true
+  next: "http://localhost:8000/api/gettimeline/"
 };
 
 export default function posts(state = initialState, action) {
@@ -18,9 +17,8 @@ export default function posts(state = initialState, action) {
     case GET_POSTS:
       return {
         ...state,
-        posts: [...state.posts, ...action.payload.polls],
-        page: action.payload.page,
-        has_more_posts: action.payload.has_more
+        posts: [...state.posts, ...action.payload.results],
+        next: action.payload.next
       };
     case DECREMENT_OPTION_COUNT:
       let {

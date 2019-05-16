@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react";
 
+import { Link } from "react-router-dom";
+
 export class ProfileItem extends Component {
   render() {
     let follow_or_following_value = "Follow",
@@ -38,18 +40,15 @@ export class ProfileItem extends Component {
       <Fragment>
         {this.props.current_user.id !== host_user.id ? (
           <div className="ms-findpeoples-item">
-            {/* host user detail view */}
-            <span
-              onClick={() => {
-                this.props.getSingleUser(host_user.id);
-                return true;
+            {/* host user detail view */}{" "}
+            <Link
+              to={{
+                pathname: "/profile/:user_id".replace(":user_id", host_user.id)
               }}
-              // href="#/profile"
-              className="ms-findpeoples-name"
+              className="ms-link ms-findpeoples-name"
             >
-              {host_user.name}
-            </span>
-
+              {host_user.name}{" "}
+            </Link>
             {/* follow button */}
             {follow_button}
           </div>

@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import { navigate } from "../../actions/navigation";
 import { logout } from "../../actions/auth";
 import { search } from "../../actions/search";
+import { setProfilePollsToNormal } from "../../actions/users";
 
 // logos
 
@@ -34,9 +35,10 @@ export class TopNavbar extends Component {
   };
 
   static propTypes = {
-    //   current_user: PropTypes.object.isRequired,
+    current_user: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired,
+    setProfilePollsToNormal: PropTypes.func.isRequired,
     navigate: PropTypes.func.isRequired,
     navigation: PropTypes.string.isRequired,
     search: PropTypes.func.isRequired
@@ -85,7 +87,15 @@ export class TopNavbar extends Component {
         </li>
         <div className="ms-medium-and-up">
           <li className="ms-top-navbar-item">
-            <Link to="/profile" className="ms-nav-link">
+            <Link
+              to={{
+                pathname: "/profile/:user_id".replace(
+                  ":user_id",
+                  this.props.current_user.id
+                )
+              }}
+              className="ms-nav-link"
+            >
               <img
                 src={outlinedProfile}
                 alt="profile"
@@ -182,7 +192,7 @@ export class TopNavbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  // current_user: state.current_user.current_user,
+  current_user: state.current_user.current_user,
   auth: state.auth,
   navigation: state.navigation.navigation
 });
@@ -192,7 +202,8 @@ export default connect(
   {
     logout,
     navigate,
-    search
+    search,
+    setProfilePollsToNormal
     // get_notifications
   }
 )(TopNavbar);

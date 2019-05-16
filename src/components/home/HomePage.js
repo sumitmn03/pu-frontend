@@ -39,21 +39,19 @@ export class HomePage extends Component {
   }
 
   loadMorePolls = () => {
-    const { next } = this.props;
-    if (next !== null) {
-      this.props.getPosts(next);
-    }
+    const { next, getPosts } = this.props;
+    if (next !== "") getPosts(next);
   };
 
   render() {
-    const { posts } = this.props;
+    const { posts, next } = this.props;
 
     return (
       <div className="timeline">
         <InfiniteScroll
           pageStart={0}
           loadMore={this.loadMorePolls}
-          hasMore={this.props.next !== null ? true : false}
+          hasMore={next !== null}
           loader={
             <div key={0} className="ms-timeline-loading-page">
               Loading ...

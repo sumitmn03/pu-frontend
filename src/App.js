@@ -19,11 +19,11 @@ import MainRegister from "./components/authentication/register/MainRegister";
 import Homepage from "./components/home/HomePage";
 import CreateForm from "./components/home/createPost/CreateForm";
 import FindPeoples from "./components/home/peoples/find/FindPeoples";
+import OthersProfile from "./components/home/peoples/othersProfile/OthersProfile";
 // import Profile from "./peoples/profile/Profile";
 // import UpdateForm from "./update/update_poll/UpdateForm";
 // import Stats from "./stats/stats";
 import NotificationList from "./components/home/notification/NotificationList";
-import MyProfile from "./components/home/myprofile/MyProfile";
 import Search from "./components/home/search/Search";
 import PollDetailView from "./components/home/pollDetailView/PollDetailView";
 // import EditMyProfile from "./myprofile/EditMyProfile";
@@ -61,16 +61,19 @@ class App extends Component {
                   component={NotificationList}
                 />
                 <PrivateRoute exact path="/setting" component={Setting} />
-                <PrivateRoute exact path="/profile" component={MyProfile} />
                 <PrivateRoute exact path="/peoples" component={FindPeoples} />
                 <PrivateRoute exact path="/search" component={Search} />
-                const pd ={" "}
                 <PrivateRoute
                   exact
                   path="/polldetail/:post_id"
                   component={PollDetailView}
                 />
                 <PrivateRoute exact path="/vote" component={VotePage} />
+                <PrivateRoute
+                  exact
+                  path="/profile/:user_id"
+                  component={OthersProfile}
+                />
                 {/* 
                   <PrivateRoute
                     exact

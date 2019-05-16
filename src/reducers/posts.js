@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   posts: [],
-  next: "http://localhost:8000/api/gettimeline/"
+  next: ""
 };
 
 export default function posts(state = initialState, action) {

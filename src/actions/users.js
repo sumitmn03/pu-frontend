@@ -7,7 +7,9 @@ import {
   GET_SINGLE_USER,
   FOLLOWING,
   FOLLOW,
-  UNFOLLOW
+  UNFOLLOW,
+  GET_PROFILE_POLLS_OTHER_USERS,
+  SET_PROFILE_POLLS_TO_NORMAL
 } from "./types";
 
 // GET ALL USERS
@@ -106,4 +108,27 @@ export const unfollow = (following_id, following_index) => (
       console.log(err);
       // dispatch(returnErrors(err.response.data, err.response.status));
     });
+};
+
+// GET POSTS
+export const getProfilePollsOfOtherUser = next_link => (dispatch, getState) => {
+  axios
+    .get(next_link, tokenConfig(getState))
+    .then(res => {
+      dispatch({
+        type: GET_PROFILE_POLLS_OTHER_USERS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log("something wrong !!");
+    });
+};
+
+// re retrieve timeline posts
+
+export const setProfilePollsToNormal = () => dispatch => {
+  dispatch({
+    type: SET_PROFILE_POLLS_TO_NORMAL
+  });
 };

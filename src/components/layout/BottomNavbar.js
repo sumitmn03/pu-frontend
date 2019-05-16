@@ -2,6 +2,9 @@ import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
 
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
 // icons
 
 import outlinedProfile from "../../logos/myprofile_logo/outlinedProfile.png";
@@ -11,11 +14,23 @@ import outlinedUsersgroup from "../../logos/usersgroup_logos/outlinedUsersgroup.
 import outlinedAddPost from "../../logos/add_post_logos/outlinedAddPost.svg";
 
 export class BottomNavbar extends Component {
+  static propTypes = {
+    current_user: PropTypes.object.isRequired
+  };
+
   render() {
     return (
       <nav className="ms-bottom-navbar">
         <li className="ms-bottom-navbar-item">
-          <Link to="/profile" className="ms-nav-link">
+          <Link
+            to={{
+              pathname: "/profile/:user_id".replace(
+                ":user_id",
+                this.props.current_user.id
+              )
+            }}
+            className="ms-nav-link"
+          >
             <img
               src={outlinedProfile}
               alt="profile"
@@ -51,4 +66,11 @@ export class BottomNavbar extends Component {
   }
 }
 
-export default BottomNavbar;
+const mapStateToProps = state => ({
+  current_user: state.current_user.current_user
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(BottomNavbar);

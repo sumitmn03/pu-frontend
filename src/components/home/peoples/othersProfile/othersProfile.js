@@ -1,72 +1,185 @@
 import React, { Component, Fragment } from "react";
-
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { follow, unfollow } from "../../../actions/users";
+import InfiniteScroll from "react-infinite-scroller";
 
-export class othersProfile extends Component {
+import {
+  setProfilePollsToNormal,
+  getSingleUser,
+  getProfilePollsOfOtherUser
+} from "../../../../actions/users";
+
+import SearchedPoll from "../../search/searchedItem/SearchedPoll";
+
+export class OthersProfile extends Component {
+  state = {
+    target_post_id: 0
+  };
+
   static propTypes = {
-    following_user_array: PropTypes.array.isRequired,
+    setProfilePollsToNormal: PropTypes.func.isRequired,
+    getSingleUser: PropTypes.func.isRequired,
+    getProfilePollsOfOtherUser: PropTypes.func.isRequired,
     host_user: PropTypes.object.isRequired,
-    follow: PropTypes.func.isRequired,
-    unfollow: PropTypes.func.isRequired,
-    current_user: PropTypes.object.isRequired
+    posts: PropTypes.array.isRequired,
+    next: PropTypes.string
+  };
+
+  componentDidMount() {
+    const { setProfilePollsToNormal, getSingleUser } = this.props;
+    setProfilePollsToNormal();
+    let get_numb = /\d+/;
+    let target_post_id = this.props.location.pathname.match(get_numb)[0];
+    getSingleUser(target_post_id);
+    this.setState({ target_post_id });
+    // getProfilePollsOfOtherUser(next, target_post_id);
+  }
+
+  componentDidUpdate() {
+    let get_numb = /\d+/;
+    if (this.props.location.pathname.match(get_numb)) {
+      const { setProfilePollsToNormal, getSingleUser } = this.props;
+      let target_post_id = this.props.location.pathname.match(get_numb)[0];
+      if (target_post_id !== this.state.target_post_id) {
+        setProfilePollsToNormal();
+        getSingleUser(target_post_id);
+        this.setState({ target_post_id });
+      }
+    }
+  }
+
+  loadMorePolls = () => {
+    const { next, host_user, getProfilePollsOfOtherUser } = this.props;
+    if (next !== null && next !== "") {
+      if (host_user.id !== undefined) {
+        getProfilePollsOfOtherUser(next);
+      }
+    }
   };
 
   render() {
-    let follow_or_following_value = "follow",
-      following_id = null,
-      following_index = null;
-    const { host_user, following_user_array } = this.props;
-
-    // check if the current user is following the other user
-    following_user_array.map((following, index) => {
-      // if host user id(following.following) found in the following list of current user, show the "following" text and set the following id
-      if (host_user.id == following.following) {
-        follow_or_following_value = "following";
-        following_id = following.id;
-        following_index = index;
-      }
-    });
-    const follow_button =
-      this.props.current_user.id != host_user.id ? (
-        // follow or unfollow button
-
-        <button
-          onClick={() => {
-            follow_or_following_value == "follow"
-              ? this.props.follow(host_user.id)
-              : this.props.unfollow(following_id, following_index);
-          }}
-          className="btn btn-success"
-        >
-          {follow_or_following_value}
-        </button>
-      ) : (
-        <Fragment />
-      );
+    const { host_user, posts } = this.props;
 
     return (
-      <center className="bg-light">
-        <br />
-        {host_user.username} <br /> <br />
-        {host_user.email} <br /> <br />
-        {/* follow or unfollow button */}
-        {follow_button}
-        <br /> <br />
-      </center>
+      <Fragment>
+        <div className="ms-profile-page">
+          <div className="ms-profile-header">{host_user.name}</div> <br />
+          {host_user.date_of_birth != null ? (
+            <Fragment>
+              <div className="ms-profile-item">
+                <span className="ms-profile-label"> Date of birth</span>
+                <span className="ms-profile-value">
+                  {" "}
+                  {host_user.date_of_birth}
+                </span>
+              </div>
+              <br />
+            </Fragment>
+          ) : (
+            ""
+          )}
+          {host_user.occupation != null ? (
+            <Fragment>
+              <div className="ms-profile-item">
+                <span className="ms-profile-label">Occupation</span>
+                <span className="ms-profile-value">
+                  {" "}
+                  {host_user.occupation}
+                </span>
+              </div>
+              <br />
+            </Fragment>
+          ) : (
+            ""
+          )}
+          {host_user.contact_no != null ? (
+            <Fragment>
+              <div className="ms-profile-item">
+                <span className="ms-profile-label">Contact number</span>{" "}
+                <span className="ms-profile-value">{host_user.contact_no}</span>
+              </div>
+              <br />
+            </Fragment>
+          ) : (
+            ""
+          )}
+          {host_user.email != null ? (
+            <Fragment>
+              <div className="ms-profile-item">
+                <span className="ms-profile-label">Email address</span>{" "}
+                <span className="ms-profile-value"> {host_user.email}</span>
+              </div>
+              <br />
+            </Fragment>
+          ) : (
+            ""
+          )}
+          {host_user.current_city != null ? (
+            <Fragment>
+              <div className="ms-profile-item">
+                <span className="ms-profile-label">current city </span>{" "}
+                <span className="ms-profile-value">
+                  {" "}
+                  {host_user.current_city}
+                </span>
+              </div>
+              <br />
+            </Fragment>
+          ) : (
+            ""
+          )}
+          {host_user.hometown != null ? (
+            <Fragment>
+              <div className="ms-profile-item">
+                <span className="ms-profile-label"> Hometown </span>
+                <span className="ms-profile-value"> {host_user.hometown}</span>
+              </div>
+              <br />
+            </Fragment>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="ms-profile-poll-page">
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={this.loadMorePolls}
+            hasMore={this.props.next !== null ? true : false}
+            loader={
+              <div key={0} className="ms-timeline-loading-page">
+                Loading ...
+              </div>
+            }
+          >
+            {posts.map((post, post_index) => {
+              return (
+                <SearchedPoll
+                  key={post_index}
+                  post={post}
+                  post_index={post_index}
+                  {...this.props}
+                />
+              );
+            })}
+          </InfiniteScroll>
+        </div>
+      </Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  current_user: state.current_user.current_user,
   host_user: state.users.host_user,
-  following_user_array: state.users.following
+  posts: state.users.posts,
+  next: state.users.next
 });
 
 export default connect(
   mapStateToProps,
-  { follow, unfollow }
-)(othersProfile);
+  {
+    setProfilePollsToNormal,
+    getSingleUser,
+    getProfilePollsOfOtherUser
+  }
+)(OthersProfile);

@@ -683,10 +683,9 @@ body::-webkit-scrollbar {
 
 .ms-profile-page {
   background-color: white;
-  min-height: calc(100vh - 67px);
+  /* min-height: calc(100vh - 67px); */
   width: 100%;
-  padding: 20px 0;
-  /* text-align: center; */
+  padding: 15px 0;
   border-radius: 4px;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
@@ -710,6 +709,17 @@ body::-webkit-scrollbar {
   width: 120px;
   color: #6c757d;
   font-style: italic;
+}
+
+.ms-profile-poll-page {
+  /* background-color: yellow; */
+  margin-top: -7px;
+  width: 100%;
+  padding: 15px 0;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 27px;
 }
 
 /* end of styles for profile page */
@@ -738,6 +748,7 @@ body::-webkit-scrollbar {
 .ms-findpeoples-name {
   float: left;
   font-size: 19px;
+  color: black;
 }
 
 .ms-findpeoples-button {
@@ -1097,6 +1108,10 @@ body::-webkit-scrollbar {
 
   .ms-poll-single-comment-reply {
     border-radius: 4px;
+  }
+
+  .ms-profile-poll-page {
+    margin-bottom: 0;
   }
 }
 

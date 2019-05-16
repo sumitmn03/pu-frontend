@@ -3,13 +3,17 @@ import {
   GET_SINGLE_USER,
   FOLLOWING,
   FOLLOW,
-  UNFOLLOW
+  UNFOLLOW,
+  GET_PROFILE_POLLS_OTHER_USERS,
+  SET_PROFILE_POLLS_TO_NORMAL
 } from "../actions/types";
 
 const initialState = {
   following: [],
   all_users: [],
-  host_user: {}
+  host_user: {},
+  posts: [],
+  next: ""
 };
 
 export default function(state = initialState, action) {
@@ -23,7 +27,8 @@ export default function(state = initialState, action) {
     case GET_SINGLE_USER:
       return {
         ...state,
-        host_user: { ...action.payload }
+        host_user: { ...action.payload },
+        next: `http://localhost:8000/api/profilepoll/${action.payload.id}/`
       };
 
     case FOLLOWING:
@@ -45,6 +50,23 @@ export default function(state = initialState, action) {
           ...state.following.slice(0, action.payload.following_index),
           ...state.following.slice(action.payload.following_index + 1)
         ]
+      };
+
+    case GET_PROFILE_POLLS_OTHER_USERS:
+      return {
+        ...state,
+        posts: [...state.posts, ...action.payload.results],
+        next: action.payload.next
+      };
+
+    case SET_PROFILE_POLLS_TO_NORMAL:
+      return {
+        ...state,
+        following: [],
+        all_users: [],
+        host_user: {},
+        posts: [],
+        next: ""
       };
 
     default:

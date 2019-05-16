@@ -53,6 +53,7 @@ export class PollDetailView extends Component {
   };
 
   componentDidMount() {
+    this.props.setCommentsToNormal();
     let get_numb = /\d+/;
     let target_post_id = this.props.location.pathname.match(get_numb)[0];
     this.setState({ target_post_id });
@@ -60,7 +61,6 @@ export class PollDetailView extends Component {
     this.props.websocket_connect(
       `ws://localhost:8000/ws/comments/${target_post_id}/`
     );
-    this.props.setCommentsToNormal();
   }
 
   componentWillUnmount() {

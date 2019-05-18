@@ -22,7 +22,7 @@ export const getPosts = next_link => (dispatch, getState) => {
       });
     })
     .catch(err => {
-      console.log("something wrong !!");
+      console.log(err);
     });
 };
 
@@ -168,7 +168,7 @@ export const addPost = (post_datas, option_datas) => (dispatch, getState) => {
     .then(res => {
       // dispatch(createMessage({ addPost: "Post Added" }));
       dispatch(addOptions(res.data.id, option_datas));
-      dispatch(getPosts());
+      dispatch(getPosts("http://localhost:8000/api/gettimeline/"));
     })
     .catch(err => {
       console.log(err);

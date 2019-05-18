@@ -79,6 +79,7 @@ export class PollDetailView extends Component {
           <div className="ms-post-detailview">
             <div className="post">
               <PollHeader
+                author_id={post.author_id}
                 author_name={post.author_name}
                 created_at={post.created_at}
               />

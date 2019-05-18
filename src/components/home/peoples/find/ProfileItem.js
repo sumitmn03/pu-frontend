@@ -25,7 +25,8 @@ export class ProfileItem extends Component {
     const follow_button = (
       // follow or unfollow button
       <button
-        onClick={() => {
+        onClick={e => {
+          e.preventDefault();
           follow_or_following_value === "Follow"
             ? this.props.follow(host_user.id)
             : this.props.unfollow(following_id, following_index);
@@ -39,19 +40,19 @@ export class ProfileItem extends Component {
     return (
       <Fragment>
         {this.props.current_user.id !== host_user.id ? (
-          <div className="ms-findpeoples-item">
-            {/* host user detail view */}{" "}
+          <Fragment>
             <Link
               to={{
                 pathname: "/profile/:user_id".replace(":user_id", host_user.id)
               }}
-              className="ms-link ms-findpeoples-name"
+              // className="ms-link ms-findpeoples-name"
             >
-              {host_user.name}{" "}
+              <div className="ms-findpeoples-item">
+                <div className="ms-findpeoples-name"> {host_user.name} </div>
+                {follow_button}
+              </div>{" "}
             </Link>
-            {/* follow button */}
-            {follow_button}
-          </div>
+          </Fragment>
         ) : (
           <Fragment />
         )}

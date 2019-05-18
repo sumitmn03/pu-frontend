@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { udpatecurrentuser } from "../../actions/currentuser";
+import { udpatecurrentuser } from "../../../actions/currentuser";
 
 export class EditMyProfile extends Component {
   static propTypes = {
@@ -12,23 +12,39 @@ export class EditMyProfile extends Component {
   };
 
   state = {
-    first_name: "",
+    name: "",
     date_of_birth: "",
-    middle_name: "",
-    last_name: "",
     contact_no: "",
     current_city: "",
     hometown: "",
     occupation: "",
-    submitted: false
+    date_or_text: "text",
+    submitted: false,
+    no_current_user: false
   };
+
+  componentDidMount() {
+    const { current_user } = this.props;
+    if (current_user.name == null) {
+      this.setState({ no_current_user: true });
+    }
+    this.setState({
+      name: current_user.name != null ? current_user.name : "",
+      date_of_birth:
+        current_user.date_of_birth != null ? current_user.date_of_birth : "",
+      contact_no:
+        current_user.contact_no != null ? current_user.contact_no : "",
+      current_city:
+        current_user.current_city != null ? current_user.current_city : "",
+      hometown: current_user.hometown != null ? current_user.hometown : "",
+      occupation: current_user.occupation != null ? current_user.occupation : ""
+    });
+  }
 
   onSubmit = e => {
     e.preventDefault();
     const {
-      first_name,
-      middle_name,
-      last_name,
+      name,
       date_of_birth,
       contact_no,
       current_city,
@@ -37,9 +53,7 @@ export class EditMyProfile extends Component {
     } = this.state;
 
     this.props.udpatecurrentuser({
-      first_name,
-      middle_name,
-      last_name,
+      name,
       date_of_birth,
       contact_no,
       current_city,
@@ -51,133 +65,111 @@ export class EditMyProfile extends Component {
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-  componentDidMount() {
-    const { current_user } = this.props;
-    this.setState({
-      first_name:
-        current_user.first_name != null ? current_user.first_name : "",
-      date_of_birth:
-        current_user.date_of_birth != null ? current_user.date_of_birth : "",
-      middle_name:
-        current_user.middle_name != null ? current_user.middle_name : "",
-      last_name: current_user.last_name != null ? current_user.last_name : "",
-      contact_no:
-        current_user.contact_no != null ? current_user.contact_no : "",
-      current_city:
-        current_user.current_city != null ? current_user.current_city : "",
-      hometown: current_user.hometown != null ? current_user.hometown : "",
-      occupation: current_user.occupation != null ? current_user.occupation : ""
-    });
-  }
+  handle_on_change = (target, value) => {
+    this.setState({ [target]: value });
+  };
 
   render() {
-    if (this.state.submitted) {
-      return <Redirect to="/myprofile" />;
+    if (this.state.no_current_user) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/"
+          }}
+        />
+      );
+    } else if (this.state.submitted) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/profile/:user_id".replace(
+              ":user_id",
+              this.props.current_user.id
+            )
+          }}
+        />
+      );
     }
     const {
-      first_name,
-      middle_name,
-      last_name,
+      name,
       date_of_birth,
       contact_no,
       current_city,
       hometown,
-      occupation
+      occupation,
+      date_or_text
     } = this.state;
 
-    // const {current_user}
     return (
-      <div className="col-md-6 m-auto">
-        <div className="card card-body mt-5">
-          <h2 className="text-center">Edit Profile</h2>
-          <form onSubmit={this.onSubmit}>
-            <div className="from-group">
-              <label>First name</label>
-              <input
-                type="text"
-                className="form-control"
-                name="first_name"
-                onChange={this.onChange}
-                value={first_name}
-              />
-            </div>
-            <div className="from-group">
-              <label>Middle name</label>
-              <input
-                type="text"
-                className="form-control"
-                name="middle_name"
-                onChange={this.onChange}
-                value={middle_name}
-              />
-            </div>
-            <div className="from-group">
-              <label>Last name</label>
-              <input
-                type="text"
-                className="form-control"
-                name="last_name"
-                onChange={this.onChange}
-                value={last_name}
-              />
-            </div>
-            <div className="from-group">
-              <label>Date of birth</label>
-              <input
-                type="text"
-                className="form-control"
-                name="date_of_birth"
-                onChange={this.onChange}
-                value={date_of_birth}
-              />
-            </div>
-            <div className="from-group">
-              <label>contact number</label>
-              <input
-                type="number"
-                className="form-control"
-                name="contact_no"
-                onChange={this.onChange}
-                value={contact_no}
-              />
-            </div>
-            <div className="from-group">
-              <label>Current city</label>
-              <input
-                type="text"
-                className="form-control"
-                name="current_city"
-                onChange={this.onChange}
-                value={current_city}
-              />
-            </div>
-            <div className="from-group">
-              <label>Hometown</label>
-              <input
-                type="text"
-                className="form-control"
-                name="hometown"
-                onChange={this.onChange}
-                value={hometown}
-              />
-            </div>
-            <div className="from-group">
-              <label>occupation</label>
-              <input
-                type="text"
-                className="form-control"
-                name="occupation"
-                onChange={this.onChange}
-                value={occupation}
-              />
-            </div>
-            <div className="form-group">
-              <button type="submit" className="btn btn-primary">
-                Save{" "}
-              </button>
-            </div>
-          </form>
-        </div>
+      <div className="ms-notification-page">
+        <form onSubmit={this.onSubmit} className="ms-form ms-profile-edit-form">
+          <input
+            type="text"
+            placeholder="Name"
+            name="name"
+            onChange={this.onChange}
+            value={name}
+            className="ms-form-input"
+          />
+          <br />
+          <input
+            name="date_of_birth"
+            placeholder="Date of birth"
+            type={date_or_text}
+            onFocus={() => {
+              this.handle_on_change("date_or_text", "date");
+            }}
+            onBlur={() => {
+              this.handle_on_change("date_or_text", "text");
+            }}
+            value={date_of_birth}
+            onChange={this.onChange}
+            className="ms-form-input"
+          />
+          <br />
+          <input
+            type="number"
+            placeholder="Contact no."
+            className="ms-form-input"
+            name="contact_no"
+            onChange={this.onChange}
+            value={contact_no}
+          />
+          <br />
+          <input
+            type="text"
+            placeholder="Current city"
+            className="ms-form-input"
+            name="current_city"
+            onChange={this.onChange}
+            value={current_city}
+          />
+          <br />
+          <input
+            type="text"
+            placeholder="Hometown"
+            className="ms-form-input"
+            name="hometown"
+            onChange={this.onChange}
+            value={hometown}
+          />
+          <br />
+          <input
+            type="text"
+            placeholder="Occupation"
+            className="ms-form-input"
+            name="occupation"
+            onChange={this.onChange}
+            value={occupation}
+          />
+          <br />
+          <br /> <br /> <br />
+          <input
+            value="Save"
+            type="submit"
+            className="ms-form-button"
+          /> <br /> <br />
+        </form>
       </div>
     );
   }

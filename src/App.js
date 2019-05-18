@@ -26,7 +26,7 @@ import OthersProfile from "./components/home/peoples/othersProfile/OthersProfile
 import NotificationList from "./components/home/notification/NotificationList";
 import Search from "./components/home/search/Search";
 import PollDetailView from "./components/home/pollDetailView/PollDetailView";
-// import EditMyProfile from "./myprofile/EditMyProfile";
+import EditMyProfile from "./components/home/myprofile/EditMyProfile";
 // import UpdatePassword from "./updatePasswordFolder/UpdatePassword";
 // import UpdateEmail from "./updateEmailFolder/UpdateEmail";
 import Setting from "./components/home/setting/Setting";
@@ -73,6 +73,11 @@ class App extends Component {
                   exact
                   path="/profile/:user_id"
                   component={OthersProfile}
+                />
+                <PrivateRoute
+                  exact
+                  path="/editprofile"
+                  component={EditMyProfile}
                 />
                 {/* 
                   <PrivateRoute

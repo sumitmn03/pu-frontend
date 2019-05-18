@@ -12,6 +12,7 @@ const initialState = {
   following: [],
   all_users: [],
   host_user: {},
+  profile: {},
   posts: [],
   next: ""
 };
@@ -28,6 +29,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         host_user: { ...action.payload },
+        profile: { ...action.payload.profile },
         next: `http://localhost:8000/api/profilepoll/${action.payload.id}/`
       };
 
@@ -65,6 +67,7 @@ export default function(state = initialState, action) {
         following: [],
         all_users: [],
         host_user: {},
+        profile: {},
         posts: [],
         next: ""
       };

@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import { Link } from "react-router-dom";
+
+import { logout } from "../../../actions/auth";
+
 export class Setting extends Component {
+  static propTypes = {
+    logout: PropTypes.func.isRequired
+  };
   render() {
     return (
       <div className="ms-setting-page">
@@ -16,6 +26,11 @@ export class Setting extends Component {
         <li className="ms-setting-item" href="#contact">
           Contact
         </li>
+        <Link to="/editprofile" className="ms-link">
+          <li className="ms-setting-item" href="#contact">
+            <span>Edit Profile</span>{" "}
+          </li>
+        </Link>{" "}
         <li className="ms-setting-item" onClick={this.props.logout}>
           Logout
         </li>
@@ -24,4 +39,9 @@ export class Setting extends Component {
   }
 }
 
-export default Setting;
+const mapStateToProps = state => ({});
+
+export default connect(
+  mapStateToProps,
+  { logout }
+)(Setting);

@@ -35,37 +35,40 @@ export const notify = (
 ) => (dispatch, getState) => {
   // notify for post votes
   if (notification_for === 1) {
-    if (count === 1 && previous_count === 0) {
-      let notification = `${count} person voted in your post`;
+    // if (count === 1 && previous_count === 0) {
+    //   let notification = `${count} person voted in your post`;
 
-      axios
-        .post(
-          "http://localhost:8000/api/notification/",
-          JSON.stringify({
-            notification_for,
-            user: owner_user,
-            type_id,
-            count,
-            notification
-          }),
-          tokenConfig(getState)
-        )
-        .catch(err => {
-          // dispatch(returnErrors(err.response.data, err.response.status));
-          console.log(err);
-        });
-    } else if (count === 0 && previous_count === 1) {
-      axios
-        .delete(
-          `http://localhost:8000/api/notification/${notification_id}/`,
-          tokenConfig(getState)
-        )
-        .catch(err => {
-          // dispatch(returnErrors(err.response.data, err.response.status));
-          console.log(err);
-        });
-    } else if (count > previous_count && count !== 1 && previous_count !== 0) {
-      let notification = `${count} people voted in your post`;
+    //   axios
+    //     .post(
+    //       "http://localhost:8000/api/notification/",
+    //       JSON.stringify({
+    //         notification_for,
+    //         user: owner_user,
+    //         type_id,
+    //         count,
+    //         notification
+    //       }),
+    //       tokenConfig(getState)
+    //     )
+    //     .catch(err => {
+    //       // dispatch(returnErrors(err.response.data, err.response.status));
+    //       console.log(err);
+    //     });
+    // }
+    // else if (count === 0 && previous_count === 1) {
+    //   axios
+    //     .delete(
+    //       `http://localhost:8000/api/notification/${notification_id}/`,
+    //       tokenConfig(getState)
+    //     )
+    //     .catch(err => {
+    //       // dispatch(returnErrors(err.response.data, err.response.status));
+    //       console.log(err);
+    //     });
+    // }
+    // else
+    if (count > previous_count) {
+      let notification = `${count} person voted your post`;
 
       axios
         .patch(
@@ -80,8 +83,8 @@ export const notify = (
           // dispatch(returnErrors(err.response.data, err.response.status));
           console.log(err);
         });
-    } else if (count < previous_count && count !== 0 && previous_count !== 1) {
-      let notification = `${count} people voted your post`;
+    } else if (count < previous_count) {
+      let notification = `${count} person voted your post`;
 
       axios
         .patch(

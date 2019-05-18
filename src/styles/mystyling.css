@@ -623,6 +623,10 @@ body::-webkit-scrollbar {
   display: none !important;
 }
 
+.ms-profile-edit-form {
+  margin-top: 15px;
+}
+
 /* styles for notification page */
 
 .ms-notification-page {
@@ -663,6 +667,7 @@ body::-webkit-scrollbar {
 }
 
 .ms-setting-item {
+  color: black;
   text-align: center;
   list-style: none;
   display: block;
@@ -685,7 +690,7 @@ body::-webkit-scrollbar {
   background-color: white;
   /* min-height: calc(100vh - 67px); */
   width: 100%;
-  padding: 15px 0;
+  padding: 15px 15px;
   border-radius: 4px;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
@@ -695,13 +700,12 @@ body::-webkit-scrollbar {
   margin: 5px 0;
   font-size: 22px;
   font-weight: 500;
-  text-align: center;
   padding: 15px 0;
 }
 
 .ms-profile-item {
   padding: 5px 0;
-  margin-left: 20%;
+  /* margin-left: 20%; */
 }
 
 .ms-profile-label {
@@ -764,10 +768,24 @@ body::-webkit-scrollbar {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.ms-profile-follow-button {
+  padding: 3px 15px;
+  font-size: 16px;
+  outline: none;
+  margin-left: 20px;
+  border: 1px solid black;
+  border-radius: 4px;
+  /* width: 80px;
+  height: 30px; */
+  color: white;
+  background-color: #00802b;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 /* end of styles for find peoples page */
 
 .ms-searched-profile {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 /* poll detail view loading page */
@@ -1043,10 +1061,6 @@ body::-webkit-scrollbar {
     padding: 15px 0;
   }
 
-  .ms-profile-item {
-    margin-left: 35%;
-  }
-
   .ms-findpeoples-page {
     font-size: 18px;
     margin-bottom: 0;
@@ -1065,9 +1079,10 @@ body::-webkit-scrollbar {
   }
 
   .ms-findpeoples-button {
-    font-size: 17px;
-    width: 100px;
-    height: 40px;
+    padding: 3px 15px;
+    font-size: 16px;
+    /* width: 100px;
+    height: 40px; */
     margin-top: -9px;
     /* padding: 7px 15px; */
     color: white;

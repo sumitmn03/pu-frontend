@@ -38,11 +38,6 @@ export class RegisterForm extends Component {
             <Fragment />
           )}
           <form onSubmit={this.onSubmit} className="ms-form">
-            {/* <div className="form-header">
-            {" "}
-            <strong>Poll up</strong>{" "}
-          </div>{" "}
-          <br /> */}
             <input
               name="name"
               placeholder="Name"

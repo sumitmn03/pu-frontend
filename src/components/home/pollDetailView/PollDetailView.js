@@ -34,7 +34,8 @@ import PollComments from "../Timeline/posts/pollElements/PollComments";
 
 export class PollDetailView extends Component {
   state = {
-    target_post_id: ""
+    target_post_id: "",
+    poll_expired: false
   };
   static propTypes = {
     getSinglePost: PropTypes.func.isRequired,
@@ -49,7 +50,8 @@ export class PollDetailView extends Component {
     decrementOptionOfDetailedPost: PropTypes.func.isRequired,
     decrement_then_incrementOfDetailedPost: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    comment_next_page: PropTypes.string
+    comment_next_page: PropTypes.string,
+    detail_option_opted_loading: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
@@ -61,6 +63,31 @@ export class PollDetailView extends Component {
     this.props.websocket_connect(
       `ws://localhost:8000/ws/comments/${target_post_id}/`
     );
+
+    let { expiry_date } = this.props.post;
+
+    let today_time = new Date(),
+      expiry_date_time = new Date(expiry_date);
+
+    today_time = today_time.getTime();
+    expiry_date_time = expiry_date_time.getTime();
+
+    if (expiry_date !== null && expiry_date_time <= today_time) {
+      this.setState({ poll_expired: true });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.post !== prevProps.post) {
+      let { expiry_date } = this.props.post;
+      let today_time = new Date(),
+        expiry_date_time = new Date(expiry_date);
+      today_time = today_time.getTime();
+      expiry_date_time = expiry_date_time.getTime();
+      if (expiry_date !== null && expiry_date_time <= today_time) {
+        this.setState({ poll_expired: true });
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -73,6 +100,9 @@ export class PollDetailView extends Component {
 
   render() {
     const { post } = this.props;
+
+    const { poll_expired } = this.state;
+
     return (
       <Fragment>
         {post.author_name ? (
@@ -82,11 +112,16 @@ export class PollDetailView extends Component {
                 author_id={post.author_id}
                 author_name={post.author_name}
                 created_at={post.created_at}
+                expiry_date={post.expiry_date}
+                poll_expired={poll_expired}
               />
 
               <PollContent content={post.posts} />
 
-              <DetailViewPollMainOptions {...this.props} />
+              <DetailViewPollMainOptions
+                {...this.props}
+                poll_expired={poll_expired}
+              />
               <hr className="ms-hrline-afteroptions" />
               <PollFooter />
             </div>
@@ -104,7 +139,8 @@ const mapStateToProps = state => ({
   post: state.post.post,
   current_user: state.current_user.current_user,
   comments: state.post.comments,
-  comment_next_page: state.post.comment_next_page
+  comment_next_page: state.post.comment_next_page,
+  detail_option_opted_loading: state.post.detail_option_opted_loading
 });
 
 export default connect(

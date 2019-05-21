@@ -6,7 +6,9 @@ import {
   GET_POSTS,
   INCREMENT_OPTION_COUNT,
   DECREMENT_OPTION_COUNT,
-  SET_TIMELINE_TO_NORMAL
+  SET_TIMELINE_TO_NORMAL,
+  OPTION_OPTED_LOADING,
+  OPTION_OPTED_LOADED
   // ADD_COMMENT,
   // ADD_REPLY
 } from "./types";
@@ -41,6 +43,10 @@ export const decrement_then_increment = (
   count,
   option_index
 ) => (dispatch, getState) => {
+  dispatch({
+    type: OPTION_OPTED_LOADING,
+    payload: post_id
+  });
   count_of_previous_option_opted -= 1;
   axios
     .delete(
@@ -68,11 +74,19 @@ export const decrement_then_increment = (
           dispatch(
             incrementOption(option_id, post_id, count, post_index, option_index)
           );
+          dispatch({
+            type: OPTION_OPTED_LOADED,
+            payload: post_id
+          });
         });
     })
     .catch(err => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       console.log(err);
+      dispatch({
+        type: OPTION_OPTED_LOADED,
+        payload: post_id
+      });
     });
 };
 
@@ -82,8 +96,13 @@ export const decrementOption = (
   opted_by_id,
   count_of_previous_option_opted,
   post_index,
-  last_option_opted_index
+  last_option_opted_index,
+  post_id
 ) => (dispatch, getState) => {
+  dispatch({
+    type: OPTION_OPTED_LOADING,
+    payload: post_id
+  });
   count_of_previous_option_opted -= 1;
   axios
     .delete(
@@ -108,11 +127,19 @@ export const decrementOption = (
               decrement_option_index: last_option_opted_index
             }
           });
+          dispatch({
+            type: OPTION_OPTED_LOADED,
+            payload: post_id
+          });
         });
     })
     .catch(err => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       console.log(err);
+      dispatch({
+        type: OPTION_OPTED_LOADED,
+        payload: post_id
+      });
     });
 };
 
@@ -124,6 +151,10 @@ export const incrementOption = (
   post_index,
   option_index
 ) => (dispatch, getState) => {
+  dispatch({
+    type: OPTION_OPTED_LOADING,
+    payload: post_id
+  });
   count += 1;
   axios
     .post(
@@ -148,11 +179,19 @@ export const incrementOption = (
               increment_option_index: option_index
             }
           });
+          dispatch({
+            type: OPTION_OPTED_LOADED,
+            payload: post_id
+          });
         });
     })
     .catch(err => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       console.log(err);
+      dispatch({
+        type: OPTION_OPTED_LOADED,
+        payload: post_id
+      });
     });
 };
 

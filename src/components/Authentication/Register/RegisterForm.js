@@ -25,7 +25,7 @@ export class RegisterForm extends Component {
 
     return (
       <Fragment>
-        <div className=" ms-form-align ms-register-form">
+        <div className="ms-form-align ms-register-form">
           {password_doesnt_match ? (
             <Fragment>
               <div className="text-danger">

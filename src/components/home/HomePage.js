@@ -30,7 +30,8 @@ export class HomePage extends Component {
     decrement_then_increment: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     setTimelineToNormal: PropTypes.func.isRequired,
-    next: PropTypes.string
+    next: PropTypes.string,
+    option_opted_loading: PropTypes.array.isRequired
   };
 
   componentDidMount() {
@@ -78,7 +79,8 @@ export class HomePage extends Component {
 const mapStateToProps = state => ({
   // current_user: state.current_user.current_user,
   posts: state.posts.posts,
-  next: state.posts.next
+  next: state.posts.next,
+  option_opted_loading: state.posts.option_opted_loading
 });
 
 export default connect(

@@ -54,10 +54,17 @@ export const loadUser = () => (dispatch, getState) => {
   axios
     .get("http://localhost:8000/api/currentuser", tokenConfig(getState))
     .then(res => {
-      dispatch({
-        type: USER_LOADED,
-        payload: res.data
-      });
+      if (res.data.isNotAuthenticated) {
+        dispatch({
+          type: LOGOUT_SUCCESS,
+          payload: res.data
+        });
+      } else {
+        dispatch({
+          type: USER_LOADED,
+          payload: res.data
+        });
+      }
     })
     .catch(err => {
       // console.log(err);

@@ -41,8 +41,10 @@ import { get_notifications } from "./actions/notifications";
 class App extends Component {
   componentDidMount() {
     store.dispatch(loadUser());
-    store.dispatch(getCurrentUser());
-    store.dispatch(get_notifications());
+    if (store.getState().auth.isAuthenticated) {
+      store.dispatch(getCurrentUser());
+      store.dispatch(get_notifications());
+    }
   }
   render() {
     return (

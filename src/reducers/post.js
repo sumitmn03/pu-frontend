@@ -3,17 +3,28 @@ import {
   GET_COMMENTS,
   SET_COMMENTS_TO_NORMAL,
   INCREMENT_OPTION_COUNT_OF_DETAILED_POST,
-  DECREMENT_OPTION_COUNT_OF_DETAILED_POST
+  DECREMENT_OPTION_COUNT_OF_DETAILED_POST,
+  DETAIL_OPTION_OPTED_LOADING,
+  DETAIL_OPTION_OPTED_LOADED
 } from "../actions/types";
 
 const initialState = {
   post: {},
   comments: [],
-  comment_next_page: ""
+  comment_next_page: "",
+  detail_option_opted_loading: false
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case SET_COMMENTS_TO_NORMAL:
+      return {
+        ...state,
+        post: {},
+        comments: [],
+        comment_next_page: ""
+      };
+
     case GET_SINGLE_POST:
       return {
         ...state,
@@ -68,13 +79,7 @@ export default function(state = initialState, action) {
         comments: [...state.comments, ...action.payload.results],
         comment_next_page: action.payload.next
       };
-    case SET_COMMENTS_TO_NORMAL:
-      return {
-        ...state,
-        post: {},
-        comments: [],
-        comment_next_page: ""
-      };
+
     // triggered when the websocket receives a new message from the server
     case "REDUX_WEBSOCKET::MESSAGE":
       const { comment_data, parent_comment_index } = JSON.parse(
@@ -101,6 +106,18 @@ export default function(state = initialState, action) {
           ]
         };
       }
+
+    case DETAIL_OPTION_OPTED_LOADING:
+      return {
+        ...state,
+        detail_option_opted_loading: true
+      };
+
+    case DETAIL_OPTION_OPTED_LOADED:
+      return {
+        ...state,
+        detail_option_opted_loading: false
+      };
 
     default:
       return state;

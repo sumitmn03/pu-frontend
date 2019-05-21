@@ -3,6 +3,15 @@ import React, { Component } from "react";
 import PollOption from "../../Timeline/posts/pollElements/PollOption";
 
 export class DetailViewPollOptions extends Component {
+  state = {
+    is_any_option_opted: false,
+    last_option_opted: {},
+    last_option_opted_index: null,
+    count_of_previous_option_opted: 0,
+    actions_are_ready: false,
+    total_option_count: 0
+  };
+
   componentDidMount() {
     let is_any_option_opted = false,
       last_option_opted = {},
@@ -163,7 +172,15 @@ export class DetailViewPollOptions extends Component {
   };
 
   render() {
-    let { post, post_index } = this.props;
+    let {
+      post,
+      post_index,
+      detail_option_opted_loading,
+      poll_expired
+    } = this.props;
+
+    const { total_option_count } = this.state;
+
     return (
       <div
         className={
@@ -173,20 +190,27 @@ export class DetailViewPollOptions extends Component {
         }
       >
         {" "}
-        {post.options.map((option, option_index) => {
-          return (
-            <PollOption
-              key={option_index}
-              option={option}
-              post_index={post_index}
-              option_index={option_index}
-              handle_option_opted={this.handle_option_opted}
-              post_id={post.id}
-              option_count={option.count}
-              option_opted_by_current_user={post.option_opted_by_current_user}
-            />
-          );
-        })}
+        {detail_option_opted_loading ? (
+          <div className="ms-option-loading">Loading...</div>
+        ) : (
+          post.options.map((option, option_index) => {
+            let count_percent = (option.count * 100) / total_option_count;
+            return (
+              <PollOption
+                key={option_index}
+                option={option}
+                post_index={post_index}
+                option_index={option_index}
+                handle_option_opted={this.handle_option_opted}
+                post_id={post.id}
+                option_count={option.count}
+                option_opted_by_current_user={post.option_opted_by_current_user}
+                count_percent={count_percent}
+                poll_expired={poll_expired}
+              />
+            );
+          })
+        )}
       </div>
     );
   }

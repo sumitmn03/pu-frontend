@@ -7,7 +7,9 @@ import {
   GET_COMMENTS,
   SET_COMMENTS_TO_NORMAL,
   INCREMENT_OPTION_COUNT_OF_DETAILED_POST,
-  DECREMENT_OPTION_COUNT_OF_DETAILED_POST
+  DECREMENT_OPTION_COUNT_OF_DETAILED_POST,
+  DETAIL_OPTION_OPTED_LOADING,
+  DETAIL_OPTION_OPTED_LOADED
 } from "./types";
 
 // GET POSTS
@@ -63,6 +65,10 @@ export const decrement_then_incrementOfDetailedPost = (
   count,
   option_index
 ) => (dispatch, getState) => {
+  dispatch({
+    type: DETAIL_OPTION_OPTED_LOADING,
+    payload: null
+  });
   count_of_previous_option_opted -= 1;
   axios
     .delete(
@@ -94,11 +100,19 @@ export const decrement_then_incrementOfDetailedPost = (
               option_index
             )
           );
+          dispatch({
+            type: DETAIL_OPTION_OPTED_LOADED,
+            payload: null
+          });
         });
     })
     .catch(err => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       console.log(err);
+      dispatch({
+        type: DETAIL_OPTION_OPTED_LOADED,
+        payload: null
+      });
     });
 };
 
@@ -107,8 +121,13 @@ export const decrementOptionOfDetailedPost = (
   last_option_opted_id,
   opted_by_id,
   count_of_previous_option_opted,
-  last_option_opted_index
+  last_option_opted_index,
+  post_id
 ) => (dispatch, getState) => {
+  dispatch({
+    type: DETAIL_OPTION_OPTED_LOADING,
+    payload: null
+  });
   count_of_previous_option_opted -= 1;
   axios
     .delete(
@@ -132,11 +151,19 @@ export const decrementOptionOfDetailedPost = (
               decrement_option_index: last_option_opted_index
             }
           });
+          dispatch({
+            type: DETAIL_OPTION_OPTED_LOADED,
+            payload: null
+          });
         });
     })
     .catch(err => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       console.log(err);
+      dispatch({
+        type: DETAIL_OPTION_OPTED_LOADED,
+        payload: null
+      });
     });
 };
 
@@ -147,6 +174,10 @@ export const incrementOptionOfDetailedPost = (
   count,
   option_index
 ) => (dispatch, getState) => {
+  dispatch({
+    type: DETAIL_OPTION_OPTED_LOADING,
+    payload: null
+  });
   count += 1;
   axios
     .post(
@@ -170,10 +201,18 @@ export const incrementOptionOfDetailedPost = (
               increment_option_index: option_index
             }
           });
+          dispatch({
+            type: DETAIL_OPTION_OPTED_LOADED,
+            payload: null
+          });
         });
     })
     .catch(err => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       console.log(err);
+      dispatch({
+        type: DETAIL_OPTION_OPTED_LOADED,
+        payload: null
+      });
     });
 };

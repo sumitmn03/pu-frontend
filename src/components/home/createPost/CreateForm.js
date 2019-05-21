@@ -14,7 +14,9 @@ export class CreateForm extends Component {
     no_of_options: 0,
     optionArray: [],
     options: [],
-    isSubmitted: false
+    isSubmitted: false,
+    expiry_date: "",
+    date_or_text: "text"
   };
 
   static propTypes = {
@@ -48,14 +50,15 @@ export class CreateForm extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const { post, no_of_options, options } = this.state;
-    this.props.addPost({ posts: post, no_of_options }, options);
+    const { post, no_of_options, options, expiry_date } = this.state;
+    this.props.addPost({ posts: post, no_of_options, expiry_date }, options);
     this.setState({
       post: "",
       no_of_options: 0,
       optionArray: [],
       options: [],
-      isSubmitted: true
+      isSubmitted: true,
+      expiry_date: ""
     });
   };
 
@@ -66,8 +69,14 @@ export class CreateForm extends Component {
     }
   };
 
+  handle_on_change = (target, value) => {
+    this.setState({ [target]: value });
+  };
+
   render() {
-    if (this.state.isSubmitted) {
+    const { date_or_text, expiry_date, isSubmitted } = this.state;
+
+    if (isSubmitted) {
       return <Redirect to="/" />;
     }
     const { post, optionArray, no_of_options } = this.state;
@@ -99,6 +108,21 @@ export class CreateForm extends Component {
             <br />
           </div>
           <br />
+          <input
+            name="expiry_date"
+            placeholder="Expiry date"
+            type={date_or_text}
+            onFocus={() => {
+              this.handle_on_change("date_or_text", "date");
+            }}
+            onBlur={() => {
+              this.handle_on_change("date_or_text", "text");
+            }}
+            value={expiry_date}
+            onChange={this.onChange}
+            className="ms-addpost-expiry-date"
+          />
+          <br /> <br />
           <button type="submit" className="ms-addpost-button">
             Post
           </button>

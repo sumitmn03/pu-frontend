@@ -12,42 +12,40 @@ export class RegisterOtp extends Component {
   render() {
     const { otp, email, wrong_otp } = this.props;
     return (
-      <div className="container ms-form-align">
-        <div className="col-md-6 m-auto">
-          <form onSubmit={this.onSubmit} className="ms-form">
-            {wrong_otp ? (
-              <div className="text-danger">
-                <strong>
-                  Please enter the correct OTP that we sent to your email
-                  address <span className="text-success">'{email}'.</span>
-                </strong>
-              </div>
-            ) : (
-              <div />
-            )}
-            <br />
-            <input
-              name="otp"
-              placeholder="OTP"
-              type="password"
-              value={otp}
-              onChange={this.onChange}
-              className="ms-form-input"
-            />
-            <br /> <br /> <br />
-            <input
-              value="Sign up"
-              type="submit"
-              className="ms-form-button"
-            />{" "}
-            <br /> <br />
-            <p>
-              {" "}
-              <strong>Didn't received OTP?</strong>{" "}
-              <span className="text-primary"> Resend</span>
-            </p>
-          </form>
-        </div>
+      <div className="ms-form-align ms-register-form">
+        <form onSubmit={this.onSubmit} className="ms-form">
+          {wrong_otp ? (
+            <div className="text-danger">
+              <strong>
+                Please enter the correct OTP that we sent to your email address{" "}
+                <span className="text-success">'{email}'.</span>
+              </strong>
+            </div>
+          ) : (
+            <div />
+          )}
+          <br />
+          <input
+            name="otp"
+            placeholder="OTP"
+            type="password"
+            value={otp}
+            onChange={this.onChange}
+            className="ms-form-input"
+          />
+          <br /> <br /> <br />
+          <input
+            value="Sign up"
+            type="submit"
+            className="ms-form-button"
+          />{" "}
+          <br /> <br />
+          <p>
+            {" "}
+            <strong>Didn't received OTP?</strong>{" "}
+            <span className="text-primary"> Resend</span>
+          </p>
+        </form>
       </div>
     );
   }

@@ -2,7 +2,9 @@ import {
   GET_POSTS,
   INCREMENT_OPTION_COUNT,
   DECREMENT_OPTION_COUNT,
-  SET_TIMELINE_TO_NORMAL
+  SET_TIMELINE_TO_NORMAL,
+  OPTION_OPTED_LOADING,
+  OPTION_OPTED_LOADED
   // ADD_COMMENT,
   // ADD_REPLY,
   // POSTREPORTED
@@ -10,11 +12,19 @@ import {
 
 const initialState = {
   posts: [],
-  next: ""
+  next: "",
+  option_opted_loading: []
 };
 
 export default function posts(state = initialState, action) {
   switch (action.type) {
+    case SET_TIMELINE_TO_NORMAL:
+      return {
+        ...state,
+        posts: [],
+        next: "http://localhost:8000/api/gettimeline/"
+      };
+
     case GET_POSTS:
       return {
         ...state,
@@ -111,11 +121,20 @@ export default function posts(state = initialState, action) {
         ]
       };
 
-    case SET_TIMELINE_TO_NORMAL:
+    case OPTION_OPTED_LOADING:
       return {
         ...state,
-        posts: [],
-        next: "http://localhost:8000/api/gettimeline/"
+        option_opted_loading: [...state.option_opted_loading, action.payload]
+      };
+
+    case OPTION_OPTED_LOADED:
+      let index = state.option_opted_loading.indexOf(action.payload);
+      return {
+        ...state,
+        option_opted_loading: [
+          ...state.option_opted_loading.slice(0, index),
+          ...state.option_opted_loading.slice(index + 1)
+        ]
       };
 
     default:
